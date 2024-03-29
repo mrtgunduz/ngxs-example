@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { FetchUsers, UsersState, UsersStateModel } from './core/services/user.state';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +9,18 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'ngxs-state-management';
+
+  @Select(UsersState.getUsers) users$?: Observable<any[]>;
+
+  constructor(private store: Store) { }
+
+  ngOnInit(): void {
+    
+    this.store.dispatch(new FetchUsers());
+  this.users$?.subscribe(users => console.log(users));
+  }
+
+  testo(){
+
+  }
 }
